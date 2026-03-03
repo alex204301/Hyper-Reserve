@@ -1,3 +1,27 @@
 spring:
   application:
     name: hyper-reserve
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate  # 운영: validate / 개발: update
+    show-sql: false
+
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: 6379
+
+jwt:
+  secret: ${JWT_SECRET}
+  access-token-expiry: 3600      # 1시간
+  refresh-token-expiry: 604800   # 7일
+
+reservation:
+  expiry-minutes: 10  # 예약 임시 선점 만료 시간

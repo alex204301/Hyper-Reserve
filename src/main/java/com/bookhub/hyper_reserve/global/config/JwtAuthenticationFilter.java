@@ -34,7 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             // DB 조회 없이 토큰 클레임에서 role 꺼내기 (성능 최적화)
             String role = jwtProvider.getClaims(token).get("role", String.class);
 
-            log.info("userId: " + userId + " Role: " + role);
+            log.debug("userId: " + userId + " Role: " + role);
 
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(

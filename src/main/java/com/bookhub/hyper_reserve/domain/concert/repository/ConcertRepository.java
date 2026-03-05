@@ -1,4 +1,4 @@
-package com.bookhub.hyper_reserve.domain.concert.repoistory;
+package com.bookhub.hyper_reserve.domain.concert.repository;
 
 import com.bookhub.hyper_reserve.entity.Concert;
 import org.springframework.data.domain.Page;

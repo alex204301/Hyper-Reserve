@@ -1,4 +1,4 @@
-package com.bookhub.hyper_reserve.domain.concert.repoistory;
+package com.bookhub.hyper_reserve.domain.concert.repository;
 
 import com.bookhub.hyper_reserve.entity.ConcertSchedule;
 import org.springframework.data.jpa.repository.JpaRepository;

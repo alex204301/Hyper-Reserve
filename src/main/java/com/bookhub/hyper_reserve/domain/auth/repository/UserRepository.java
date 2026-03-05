@@ -1,4 +1,4 @@
-package com.bookhub.hyper_reserve.domain.auth.repoistory;
+package com.bookhub.hyper_reserve.domain.auth.repository;
 
 import com.bookhub.hyper_reserve.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-package com.bookhub.hyper_reserve.domain.payment.repoistory;
+package com.bookhub.hyper_reserve.domain.payment.repository;
 
 import com.bookhub.hyper_reserve.entity.Payment;
 import org.springframework.data.jpa.repository.JpaRepository;

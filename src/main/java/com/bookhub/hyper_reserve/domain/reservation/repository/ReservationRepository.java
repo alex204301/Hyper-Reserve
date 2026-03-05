@@ -1,4 +1,4 @@
-package com.bookhub.hyper_reserve.domain.reservation.repoistory;
+package com.bookhub.hyper_reserve.domain.reservation.repository;
 
 import com.bookhub.hyper_reserve.entity.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;

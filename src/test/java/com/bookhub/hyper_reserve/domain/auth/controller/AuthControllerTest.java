@@ -96,6 +96,27 @@ class AuthControllerTest {
     }
 
     @Test
+    @DisplayName("회원가입 실패 - 이름 빈칸 오류 → 400")
+    void signup_fail_noName() throws Exception {
+        // given - 잘못된 이메일 형식
+        String body = """
+            {
+                "email": "invalid-email",
+                "password": "Password1!"
+            }
+            """;
+
+        // when & then
+        // @Valid가 실패 → GlobalExceptionHandler가 잡아 400 반환
+        mockMvc.perform(post("/api/v1/auth/signup")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(body))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.success").value(false))
+                .andExpect(jsonPath("$.code").value("INVALID_INPUT"));
+    }
+
+    @Test
     @DisplayName("회원가입 실패 - 이메일 중복 → 409")
     void signup_fail_duplicateEmail() throws Exception {
         // given - Service에서 BusinessException 던짐

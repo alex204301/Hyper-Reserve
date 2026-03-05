@@ -21,4 +21,8 @@ public interface SeatRepository extends JpaRepository<Seat, Long> {
             @Param("seatId") Long seatId,
             @Param("scheduleId") Long scheduleId
     );
+
+    // 공연 삭제 시 스케줄에 속한 전체 좌석 삭제
+    // ConcertSchedule 삭제 전에 호출해야 FK 제약 위반이 없음
+    void deleteByScheduleId(Long scheduleId);
 }

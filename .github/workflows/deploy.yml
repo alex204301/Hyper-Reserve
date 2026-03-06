@@ -47,7 +47,7 @@ jobs:
           DB_USERNAME: root
           DB_PASSWORD: test1234
           REDIS_HOST: localhost
-          JWT_SECRET: test-secret-key-for-ci
+          JWT_SECRET: YIOGnXwiQxDKK0xCiPFoH1E6Cn4294ARACEMardjyJf
 
   # ── Job 2: 빌드 & 배포 ────────────────────────────
   build-and-deploy:

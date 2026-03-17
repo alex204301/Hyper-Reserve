@@ -60,14 +60,14 @@ public class ConcertController {
     }
 
     // ── 어드민: 공연 수정 ──────────────────────────────
-    @PutMapping("/api/v1/admin/concerts/{concertId}")
-    public ResponseEntity<ApiResponse<Void>> updateConcert(
-            @PathVariable Long concertId,
-            @Valid @RequestBody ConcertRequest request) {
-
-        concertService.updateConcert(concertId, request);
-        return ResponseEntity.ok(ApiResponse.success());
-    }
+//    @PutMapping("/api/v1/admin/concerts/{concertId}")
+//    public ResponseEntity<ApiResponse<Void>> updateConcert(
+//            @PathVariable Long concertId,
+//            @Valid @RequestBody ConcertRequest request) {
+//
+//        concertService.updateConcert(concertId, request);
+//        return ResponseEntity.ok(ApiResponse.success());
+//    }
 
     // ── 어드민: 공연 삭제 ──────────────────────────────
     @DeleteMapping("/api/v1/admin/concerts/{concertId}")

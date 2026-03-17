@@ -47,6 +47,10 @@ public class Concert extends BaseEntity {
     @Column(nullable = false)
     private LocalDate endDate;
 
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean isDeleted = false;
+
     public enum Category {
         CONCERT, MUSICAL, EXHIBITION
     }

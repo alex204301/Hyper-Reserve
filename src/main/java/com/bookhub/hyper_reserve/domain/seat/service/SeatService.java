@@ -1,9 +1,11 @@
 package com.bookhub.hyper_reserve.domain.seat.service;
 
+import com.bookhub.hyper_reserve.domain.concert.repository.ConcertRepository;
 import com.bookhub.hyper_reserve.domain.concert.repository.ConcertScheduleRepository;
 import com.bookhub.hyper_reserve.domain.seat.dto.SeatDetailResponse;
 import com.bookhub.hyper_reserve.domain.seat.dto.SeatSummaryResponse;
 import com.bookhub.hyper_reserve.domain.seat.repository.SeatRepository;
+import com.bookhub.hyper_reserve.entity.Concert;
 import com.bookhub.hyper_reserve.entity.ConcertSchedule;
 import com.bookhub.hyper_reserve.entity.Seat;
 import com.bookhub.hyper_reserve.global.exception.BusinessException;
@@ -20,11 +22,16 @@ public class SeatService {
 
     private final SeatRepository seatRepository;
     private final ConcertScheduleRepository scheduleRepository;
+    private final ConcertRepository concertRepository;
 
     // ── 좌석 목록 조회 ─────────────────────────────────
     // 스케줄 존재 여부 검증 후 해당 스케줄의 전체 좌석을 간략하게 반환
     @Transactional(readOnly = true)
     public List<SeatSummaryResponse> getSeats(Long concertId, Long scheduleId) {
+
+        // 해당 공연이 삭제된 공연인지 확인
+        Concert concert = concertRepository.findByIdAndIsDeletedFalse(concertId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.CONCERT_NOT_FOUND));
 
         // 스케줄 존재 여부 + 해당 공연 소속인지 검증
         ConcertSchedule schedule = scheduleRepository.findById(scheduleId)
@@ -49,6 +56,9 @@ public class SeatService {
     // 이미 선점/확정된 좌석 정보를 외부에 노출할 필요가 없음
     @Transactional(readOnly = true)
     public SeatDetailResponse getSeat(Long concertId, Long scheduleId, Long seatId) {
+        // 해당 공연이 삭제된 공연인지 확인
+        Concert concert = concertRepository.findByIdAndIsDeletedFalse(concertId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.CONCERT_NOT_FOUND));
 
         // 스케줄 존재 여부 + 해당 공연 소속인지 검증
         ConcertSchedule schedule = scheduleRepository.findById(scheduleId)

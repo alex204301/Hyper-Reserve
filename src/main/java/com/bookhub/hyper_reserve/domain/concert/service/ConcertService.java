@@ -80,7 +80,7 @@ public class ConcertService {
     @Transactional(readOnly = true)
     public ConcertDetailResponse getConcert(Long concertId) {
 
-        Concert concert = concertRepository.findById(concertId)
+        Concert concert = concertRepository.findByIdAndIsDeletedFalse(concertId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.CONCERT_NOT_FOUND));
 
         List<ConcertSchedule> schedules =
@@ -168,14 +168,20 @@ public class ConcertService {
     public void updateConcert(Long concertId, ConcertRequest request) {
 
         // 공연 존재 여부 확인
-        concertRepository.findById(concertId)
+        concertRepository.findByIdAndIsDeletedFalse(concertId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.CONCERT_NOT_FOUND));
 
-        // 기존 공연 삭제 후 재등록 (스케줄/좌석 포함)
-        // 실제 서비스라면 부분 업데이트가 맞지만,
-        // 프로젝트 규모에서는 단순하게 재등록 방식으로 처리
-        concertRepository.deleteById(concertId);
-        createConcert(request);
+        // 기존 공연 정보 수정 (스케줄/좌석은 불가)
+        concertRepository.updateConcertInfo(
+                concertId,
+                request.title(),
+                request.category(),
+                request.description(),
+                request.venue(),
+                request.posterUrl(),
+                request.startDate(),
+                request.endDate()
+        );
     }
 
     // ── 어드민: 공연 삭제 ──────────────────────────────
@@ -192,9 +198,11 @@ public class ConcertService {
         // 2. Redis 캐시 삭제
         schedules.forEach(s -> redisTemplate.delete("remaining:" + s.getId()));
 
-        // 3. 자식부터 순서대로 삭제 (FK 제약 위반 방지)
-        schedules.forEach(s -> seatRepository.deleteByScheduleId(s.getId()));
-        scheduleRepository.deleteByConcertId(concertId);
-        concertRepository.deleteById(concertId);
+        // 3. 자식부터 순서대로 삭제 (FK 제약 위반 방지) -> 이전 방식
+        // schedules.forEach(s -> seatRepository.deleteByScheduleId(s.getId()));
+        // scheduleRepository.deleteByConcertId(concertId);
+
+        // 3. soft delete 방식으로 실제로 삭제하지는 않고 필드값을 바꿔서 표시
+        concertRepository.updateIsDeletedById(concertId);
     }
 }
